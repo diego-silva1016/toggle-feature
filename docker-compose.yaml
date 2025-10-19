@@ -6,27 +6,7 @@ services:
     volumes:
       - .:/app
     environment:
-      - DB_HOST=db
+      - DB_HOST=database-1.cp2ek86cm4p0.us-east-1.rds.amazonaws.com
       - DB_NAME=togglemaster
-      - DB_USER=user
-      - DB_PASSWORD=password
+      - DB_USER=testedb
       - DB_PORT=5432
-    depends_on:
-      db:
-        condition: service_healthy
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=togglemaster
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d togglemaster"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  postgres_data:
