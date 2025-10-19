@@ -29,12 +29,14 @@ def get_secret():
         # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
         raise e
 
-secret = get_secret_value_response['SecretString']
+    secret = get_secret_value_response['SecretString']
+    return secret
+
 
 DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = secret
+DB_PASSWORD = get_secret()
 
 def get_db_connection():
     conn = psycopg2.connect(
