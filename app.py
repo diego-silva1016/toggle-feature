@@ -5,6 +5,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import boto3
 from botocore.exceptions import ClientError
+import json
 
 app = Flask(__name__)
 
@@ -32,11 +33,13 @@ def get_secret():
     secret = get_secret_value_response['SecretString']
     return secret
 
+secret_string=get_secret()
+secret_dict = json.loads(secret_string)
 
 DB_HOST = os.getenv("DB_HOST")
 DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = get_secret()
+DB_PASSWORD = secret_dict.get('password')
 
 def get_db_connection():
     conn = psycopg2.connect(
