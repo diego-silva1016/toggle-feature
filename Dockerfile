@@ -9,10 +9,6 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
-
 COPY app.py .
 
 RUN apt-get update && apt-get install -y postgresql-client
